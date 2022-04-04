@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+	<script src="https://kit.fontawesome.com/7a97b81a6f.js" crossorigin="anonymous"></script>
+	<title>	&#10084;Happy Anniversary	&#10084; </title>
+	<style type="text/css">
+		.img{
+			width: 26%;
+			margin-right: auto;
+			margin-left: auto;
+			display: block;margin-top: 6%;
+		}@media screen and (max-width: 479px) {
+
+.img{
+	margin-top: 45%;
+	width: 35%;
+}
+}
+
+
+
+
+		body{
+			 background-image: url("https://c.tenor.com/Y2dPsah11FwAAAAC/aesthetic-stars.gif");background-repeat: no-repeat;  background-image: linear-gradient(#FBCDF2, #E8BEFA,#FEE3E2);
+
+
+		}
+		@media (min-width: 360px) and (max-width: 500px) {
+body{
+	height:100vh;font-size: 14px;
+}
+
+}
+
+
+
+
+		.container{
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		height: 48vh;
+		justify-content: center;
+
+
+	}
+	.trackItem{
+		color: red;
+		font-size:16px;
+		font-family: inherit;
+		cursor: pointer;
+		user-select: none;
+		border-bottom: 1px solid beige;
+		padding: 10px 0px;
+	}
+	.musicPlayer{
+		display: flex;
+		flex-direction: row;
+	}
+	.currentTime{
+		color: white;
+	}
+	#progressBar{
+width: 500px;
+height: 5px;
+background: azure;
+	}
+	#currentProgress{
+		width:0px;
+		height: 100%;
+		background-color: red;
+	}
+	.controls{
+font-size: 24px;
+color: white;
+margin: 20px 40px;
+cursor: pointer;
+	}
+	@media screen and (max-width: 500px){
+		.controls{
+			font-size: 23px;margin: 12px 45px;
+		}
+	}
+	.aB{
+		display: none;
+	}
+	.ii{
+		top: 0;position: absolute;width: 35%;height: 40%;left: 32%;
+	}
+	@media screen and (max-width: 479px){
+.ii{
+	height: 28%;width:50%;left: 25%;
+}
+	}
+	
+	</style>
+</head>
+<body>
+
+<img src="3.gif" class="ii">
+	
+<img src="2.gif" class="img">
+<h3 style="text-align: center;font-family: cursive;
+text-shadow: 4px -4px 8px #a8a8a8,
+-4px 4px 8px #ffffff;" class="as">	Happy Anniversary</h3>
+<div class="container">
+	<div class="playList"></div>
+	<audio src=" "  class="audioTag">Your browser does not support</audio>
+	<div class="currentandtotalTime">00:00/00:00</div>
+	<div id="progressBar">
+		<div id="currentProgress"></div>
+	</div>
+		<div class="musicPlayer">
+<i class="fa-solid controls fa-angle-left leftB"></i>
+<i class="fa-solid  controls fa-play pB"></i>
+<i class="fa-solid  controls fa-pause aB"></i>
+<i class="fa-solid  controls fa-chevron-right rB"></i>
+	</div>
+
+</div>
+
+<script type="text/javascript">
+	
+	const playContainer=document.getElementsByClassName('playList')[0];
+	const currentandtotalTime=document.getElementsByClassName("currentandtotalTime")[0];
+	const currentProgress=document.getElementById('currentProgress');
+const audioTag=document.getElementsByClassName('audioTag')[0];
+
+const playBtn=document.getElementsByClassName("pB")[0];
+const pauseBtn=document.getElementsByClassName("aB")[0];
+const previousButton=document.getElementsByClassName("leftB")[0];
+const nextButton=document.getElementsByClassName("rB")[0];
+	const track=[{
+		trackId: "music/1.mp3" ,title:"ABC"},
+		
+		{
+		trackId: "music/2.mp3" ,title:"BAC"},
+	
+{
+
+		trackId: "music/3.mp3", title:"BGH"
+},
+
+{
+
+		trackId: "music/4.mp3", title:"FGV"
+},
+
+	];
+
+
+	for(let i=0;i<track.length;i++){
+		const trackTag=document.createElement("div");
+		trackTag.addEventListener("click",()=>{
+			const trackId =track[i].trackId ;
+			audioTag.src=trackId ;
+			audioTag.play();
+			isPlaying=true;
+			updatePlayandPauseBtn();
+			currentPlaying=i;
+			
+		});
+		trackTag.classList.add("trackItem");
+		const title=(i+1).toString()+"."+track[i].title;
+		trackTag.textContent=title;
+		playContainer.append(trackTag);
+	}
+	let duration=0;
+let durationText="00:00";
+	audioTag.addEventListener("loadeddata",()=>{
+ duration=Math.floor(audioTag.duration);
+durationText= createminAndsec(duration);
+	});
+
+
+	audioTag.addEventListener("timeupdate",()=>{
+const currentTime=Math.floor(audioTag.currentTime);
+ const currentTimetext= createminAndsec(currentTime);
+ const currentTimetextandDurationText=currentTimetext+"/"+durationText;
+ //console.log("Total is...",currentTimetextandDurationText);
+ currentandtotalTime.textContent=currentTimetextandDurationText;
+updatecurrentProgress(currentTime);
+
+	});
+
+
+	const updatecurrentProgress=(currentTime)=>{
+		const currentprogressWidth=(500/duration)*currentTime;
+		 currentProgress.style.width=currentprogressWidth.toString()+"px";
+
+	}
+
+	const createminAndsec=(ts)=>{
+		const min=Math.floor(ts/60);
+const sec=ts%60;
+
+const minText=min<10? "0"+ min.toString():min;
+const secText=sec<10? "0"+ sec.toString():sec;
+return minText+": "+secText;
+	}
+
+let currentPlaying=0;
+let isPlaying=false;
+
+
+	playBtn.addEventListener("click",()=>{
+		const currentTime=Math.floor(audioTag.currentTime);
+		isPlaying=true;
+		if(currentTime===0){
+			const songIdToplay=track[currentPlaying].trackId;
+		audioTag.src= songIdToplay;
+			audioTag.play();isPlaying=true;
+updatePlayandPauseBtn();
+		}
+		else{
+			audioTag.play();
+			updatePlayandPauseBtn();
+
+		}
+
+	}
+	);
+
+	pauseBtn.addEventListener("click",()=>{
+isPlaying=false;
+audioTag.pause();
+updatePlayandPauseBtn();
+
+	});
+
+
+	previousButton.addEventListener("click",()=>{
+if(currentPlaying===0){
+	return;
+}
+currentPlaying-=1;
+const songIdToplay=track[currentPlaying].trackId;
+audioTag.src=songIdToplay;
+			audioTag.play();
+			isPlaying=true;
+updatePlayandPauseBtn();
+
+
+	});
+
+
+nextButton.addEventListener("click",()=>{
+	if(currentPlaying===track.length-1){
+		return;
+	}
+	currentPlaying+=1;
+	const songId=track[currentPlaying].trackId;
+	audioTag.src=songId;
+			audioTag.play();
+			isPlaying=true;
+updatePlayandPauseBtn();
+
+
+});
+	const updatePlayandPauseBtn=()=>{
+		if(isPlaying){
+			playBtn.style.display="none";
+			pauseBtn.style.display="inline";
+		}else{
+			playBtn.style.display="inline";
+			pauseBtn.style.display="none";
+		}
+
+	};</script>
+</body>
+</html>
